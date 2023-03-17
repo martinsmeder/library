@@ -1,0 +1,278 @@
+------------------------------------> GENERAL INFO <-------------------------------
+
+// object literal syntax
+const myObject = {
+  property: 'Value!',
+  otherProperty: 77,
+  'obnoxious property': function() {
+    // do stuff
+  }
+}
+
+const variable = 'property'
+
+// dot notation (cleaner)
+console.log(myObject.property) // Value!
+console.log(myObject.variable) // undefined
+
+// bracket notation (always works)
+console.log(myObject['obnoxious property']) // Function expression
+console.log(myObject[variable]) // Value! (equivalent to myObject['property'])
+
+
+-----------------------------------> TIC TAC TOE EXAMPLE <----------------------------
+
+const playerOneName = 'tim'
+const playerTwoName = 'jenn'
+const playerOneMarker = 'X'
+const playerTwoMarker = 'O'
+
+// object literals better than multiple variables
+const playerOne = {
+  name: 'tim',
+  marker: 'X',
+  score: 15
+}
+
+const playerTwo = {
+  name: 'jenn',
+  marker: 'O',
+  score: 5
+}
+
+
+function keepScore(){
+  if (playerOne.score >= 10) {
+    gameOver(playerOne)
+  } else if (playerTwo.score >= 10) {
+    gameOver(playerTwo)
+  }
+}
+
+keepScore()
+
+function gameOver(winningPlayer) {
+  console.log('Congratulations!')
+  console.log(`${winningPlayer.name} is the winner!`)
+}
+
+
+----------------------------------> OBJECT CONSTRUCTORS <-----------------------------
+
+// object constructors
+function Player(name, marker) {
+  this.name = name
+  this.marker = marker
+  this.sayName = function() {
+    console.log(name)
+  }
+}
+
+// add players
+const playerOne = new Player('steve', 'X')
+const playerTwo = new Player('greg', 'O')
+
+playerTwo.sayName() // greg
+
+
+--------------------------------------> BOOK EXERCISE <-------------------------------
+
+// BOOK EXERCISE 
+
+// Create object constructor
+function Books(title, author, pages, isRead) {
+    this.title = title
+    this.author = author
+    this.pages = pages
+    this.isRead = isRead
+    this.bookInfo = function() {
+        return `${title}, ${author}, ${pages}, ${isRead}`
+    }
+}
+
+// Add new instance of book by calling function with 'new' keyword
+const lawsOfHumanNature = new Books('Laws Of Human Nature', 'Robert Greene', '600 pages', 'not read yet')
+
+// Log book info using bookInfo function
+console.log(lawsOfHumanNature.bookInfo())
+
+
+-------------------------------------> THE PROTOTYPE <----------------------------- 
+
+================== HERO EXAMPLE ===============
+
+// JavaScript objects have a hidden [[Prototype]] property. Objects inherit from their
+// constructor's [[Prototype]] object, which can be chained to other prototypes.
+// Each object in the chain inherits properties and methods from all previous objects
+// in the chain, and the chain ends with Object.prototype.
+
+// Define constructor functions
+function Hero(name, level) {
+    this.name = name;
+    this.level = level;
+}
+
+function Warrior(name, level, weapon) {
+    // Call Hero constructor with `this` context and arguments
+    Hero.call(this, name, level);
+
+    this.weapon = weapon;
+}
+
+function Healer(name, level, spell) {
+    // Call Hero constructor with `this` context and arguments
+    Hero.call(this, name, level);
+
+    this.spell = spell;
+}
+
+// By setting the prototype of Warrior and Healer to Hero, any objects created with
+// the "new" keyword will have a prototype chain that includes both 
+// Warrior/Healer.prototype and Hero.prototype. This helps with method sharing and 
+// inheritance, since the objects created with the "new" keyword can now access 
+// properties and methods from both Warrior/Healer and Hero objects. In other words, 
+// Warrior and Healer objects now inherit all properties and methods from the Hero 
+// object, allowing for code reuse and a cleaner overall code structure.
+Object.setPrototypeOf(Warrior.prototype, Hero.prototype);
+Object.setPrototypeOf(Healer.prototype, Hero.prototype);
+
+// Add attack() and heal() methods to objects using prototype
+Warrior.prototype.attack = function() {
+    return `${this.name} attacks with the ${this.weapon}`;
+};
+
+Healer.prototype.heal = function() {
+    return `${this.name} casts ${this.spell}`;
+};
+
+// Create a new instance of the Warrior and Healer object using their respective constructor function
+const hero1 = new Warrior('Odin', 1, 'axe');
+const hero2 = new Healer('Sexy', 1, 'cure');
+
+// Log the prototype of hero1 object, which is an object with its current properties
+console.log(Object.getPrototypeOf(hero1)); 
+
+console.log(hero1); // Log the object
+console.log(hero1.attack()); // Log the attack() method
+
+
+================== STUDENT EXAMPLE =============== 
+
+// Define a constructor function
+function Student() {
+}
+
+// Add methods to the prototype of the Student object (better than to the constructor)
+Student.prototype.sayName = function() {
+    console.log(this.name)
+}
+
+// Define another constructor function, which is a subclass of Student
+function EightGrader(name) {
+    this.name = name
+    this.grade = 8
+}
+
+// Set EightGrader's prototype to be a new object that inherits from Student's prototype
+EightGrader.prototype = Object.create(Student.prototype)
+
+// Don't do this (will set property to Student.prototype, i.e. not a copy) which could
+// cause problems in the future if you want to edit something 
+// EighthGrader.prototype = Student.prototype
+
+
+// Create a new instance of EightGrader object using its constructor function
+const carl = new EightGrader('carl')
+
+
+// Call the sayName method on carl, which will output the name property defined in EightGrader
+carl.sayName(); // logs 'Carl'
+
+// Access the grade property defined in EightGrader directly
+console.log(carl.grade); // logs 8
+
+// Log the prototype of carl, which will output the Student prototype because 
+// EightGrader's prototype was set to be a new object that inherits from Student's 
+// prototype
+console.log(Object.getPrototypeOf(carl)); // logs Student
+
+
+-----------------------------------> THIS (KEYWORD) <---------------------------------
+
+* this refers to the object that the function is a method of.
+
+* When a function is called without any context, this will refer to the global object 
+  or undefined in strict mode.
+
+
+* THIS CAN BE DETERMINED USING 4 RULES: global binding, implicit binding, 
+  explicit binding, and new binding.
+
+1. With implicit binding, this is the object that the function is a method of.
+
+2. With explicit binding, this is explicitly defined using the call(), apply(), 
+   or bind() methods.
+
+3. With new binding, this refers to the newly created object when using a constructor 
+   function.
+
+4. Arrow functions do not bind their own this, and will instead inherit this from their
+   parent scope.
+
+
+-----------------------------------> KNOWLEDGE CHECK <-------------------------------
+
+1. Write an object constructor and instantiate the object:
+
+// Object constructor
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+// Instantiation
+const john = new Person('John', 30);
+
+
+2. Describe what a prototype is and how it can be used.
+
+A prototype is a blueprint of an object that defines its properties and methods. It is 
+an object itself and serves as a fallback for properties and methods that are not 
+found on the object. It can be used to create and share common properties and methods 
+between multiple objects.
+
+
+3. Explain prototypal inheritance.
+
+Prototypal inheritance is a mechanism in JavaScript that allows objects to inherit 
+properties and methods from other objects. When an object is created, it inherits the 
+properties and methods of its prototype object. The prototype chain can be traversed 
+to access properties and methods that are higher up in the chain.
+
+4. Explain the basic do’s and don’t’s of prototypical inheritance.
+
+DO:
+* Do use the prototype to share common properties and methods between objects.
+* Do set the prototype of a constructor function's prototype property to the prototype 
+  object that you want the instances to inherit from.
+
+DONT:
+* Don't modify the built-in Object.prototype or other built-in prototypes.
+* Don't use the proto property to modify the prototype of an object.
+
+
+5. Explain what Object.create does.
+
+Object.create creates a new object with the specified prototype object and optionally 
+adds new properties to the new object. It provides a way to create objects without 
+using a constructor function.
+
+
+6. How does the this (keyword) behave in different situations?
+
+* In a method of an object, this refers to the object itself.
+* In a function called with new, this refers to the newly created object.
+* In a function called with call, apply, or bind, this is explicitly set to the first 
+  argument of the function.
+* In a regular function call, this refers to the global object (window in a browser, 
+  global in Node.js) in non-strict mode, and undefined in strict mode.
