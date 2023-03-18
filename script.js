@@ -13,6 +13,7 @@ function Book(title, author, pages, isRead) {
 }
 
 // Define a new toggleRead() method on the Book prototype
+// eslint-disable-next-line func-names
 Book.prototype.toggleRead = function () {
   // Invert current value (so read --> not read, and not read --> read)
   this.isRead = !this.isRead;
