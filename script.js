@@ -12,42 +12,56 @@ function Book(title, author, pages, isRead) {
   this.info = () => `${title} by ${author}, ${pages}, ${isRead}`;
 }
 
-// Array of books using the Book constructor function
+// Define a new toggleRead() method on the Book prototype
+Book.prototype.toggleRead = function () {
+  // Invert current value (so read --> not read, and not read --> read)
+  this.isRead = !this.isRead;
+};
+
+// Create an array of books using the Book constructor function
 const myLibrary = [
-  new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', false),
-  new Book('The Enchiridion', 'Epictetus', '28 pages', true),
-  new Book('The Prince', 'Niccolo Machiavelli', '144 pages', false),
+  new Book('The Hobbit', 'J.R.R. Tolkien', '295', false),
+  new Book('The Enchiridion', 'Epictetus', '28', true),
+  new Book('The Prince', 'Niccolo Machiavelli', '144', false),
 ];
 
-// Append new book to table
+// Append new book to table and handle click events
 function appendBook(newBook) {
   // Create table row element
   const tableRow = document.createElement('tr');
 
-  // Create table cell elements
+  // Create title cell element
   const titleCell = document.createElement('td');
   titleCell.textContent = newBook.title;
   tableRow.appendChild(titleCell);
 
+  // Create author cell element
   const authorCell = document.createElement('td');
   authorCell.textContent = newBook.author;
   tableRow.appendChild(authorCell);
 
+  // Create page cell element
   const pagesCell = document.createElement('td');
   pagesCell.textContent = newBook.pages;
   tableRow.appendChild(pagesCell);
 
+  // Create isRead cell and add button to it
   const isReadCell = document.createElement('td');
-  isReadCell.textContent = newBook.isRead;
+  const isReadBtn = document.createElement('button');
+  isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
   tableRow.appendChild(isReadCell);
+  isReadCell.appendChild(isReadBtn);
+
+  // Add event listener to isRead button to toggle between read/not read
+  tableRow.addEventListener('click', () => {
+    newBook.toggleRead();
+    isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
+  });
 
   // Create delete button
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = 'Delete';
   tableRow.appendChild(deleteBtn);
-
-  // Append new row to table body
-  table.appendChild(tableRow);
 
   // Add eventListener to delete row from table
   deleteBtn.addEventListener('click', () => {
@@ -62,6 +76,8 @@ function appendBook(newBook) {
     // Remove table row from table
     table.removeChild(tableRow);
   });
+  // Append new row to table body
+  table.appendChild(tableRow);
 }
 
 // Handle form submission
