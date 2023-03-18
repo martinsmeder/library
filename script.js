@@ -1,8 +1,3 @@
-// New book button with form for book details and submit button
-// 4. Add details input
-// 5. Make input into an object
-// 6. Push object to array (original one, and delete books array)
-
 const table = document.querySelector('tbody');
 const formContainer = document.querySelector('#formContainer');
 const formBtn = document.querySelector('button');
@@ -22,14 +17,43 @@ const myLibrary = [
   new Book('The Prince', 'Niccolo Machiavelli', '144 pages', 'not read yet'),
 ];
 
-// function appendBook(newBook) {
-//   const tableRow = document.createElement('tr');
+function appendBook(newBook) {
+  const tableRow = document.createElement('tr');
 
-//   const titleCell = document.createElement('td');
-//   titleCell.textContent = newBook.title;
-//   tableRow.appendChild(titleCell);
-//   table.appendChild(tableRow);
-// }
+  const titleCell = document.createElement('td');
+  titleCell.textContent = newBook.title;
+  tableRow.appendChild(titleCell);
+
+  const authorCell = document.createElement('td');
+  authorCell.textContent = newBook.author;
+  tableRow.appendChild(authorCell);
+
+  const pagesCell = document.createElement('td');
+  pagesCell.textContent = newBook.pages;
+  tableRow.appendChild(pagesCell);
+
+  const isReadCell = document.createElement('td');
+  isReadCell.textContent = newBook.isRead;
+  tableRow.appendChild(isReadCell);
+
+  table.appendChild(tableRow);
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault(); // prevent form from submitting and refreshing the page
+  const title = e.target.elements.title.value;
+  const author = e.target.elements.author.value;
+  const pages = e.target.elements.pages.value;
+  const isRead = e.target.elements.isRead.checked;
+
+  const newBook = new Book(title, author, pages, isRead);
+
+  myLibrary.push(newBook);
+  appendBook(newBook);
+
+  // Clear form fields
+  e.target.reset();
+}
 
 function openForm() {
   const form = document.createElement('form');
@@ -39,8 +63,33 @@ function openForm() {
   titleLabel.textContent = 'Title: ';
   const titleInput = document.createElement('input');
   titleInput.type = 'text';
+  titleInput.name = 'title'; // Add name attribute
   titleLabel.appendChild(titleInput);
   form.appendChild(titleLabel);
+
+  const authorLabel = document.createElement('label');
+  authorLabel.textContent = 'Author: ';
+  const authorInput = document.createElement('input');
+  authorInput.type = 'text';
+  authorInput.name = 'author'; // Add name attribute
+  authorLabel.appendChild(authorInput);
+  form.appendChild(authorLabel);
+
+  const pagesLabel = document.createElement('label');
+  pagesLabel.textContent = 'Pages: ';
+  const pagesInput = document.createElement('input');
+  pagesInput.type = 'number';
+  pagesInput.name = 'pages'; // Add name attribute
+  pagesLabel.appendChild(pagesInput);
+  form.appendChild(pagesLabel);
+
+  const isReadLabel = document.createElement('label');
+  isReadLabel.textContent = 'Read: ';
+  const isReadInput = document.createElement('input');
+  isReadInput.type = 'checkbox';
+  isReadInput.name = 'isRead'; // Add name attribute
+  isReadLabel.appendChild(isReadInput);
+  form.appendChild(isReadLabel);
 
   // Add a submit button to the form
   const submitButton = document.createElement('button');
@@ -48,40 +97,21 @@ function openForm() {
   submitButton.textContent = 'Submit';
   form.appendChild(submitButton);
   formContainer.appendChild(form);
+
+  form.addEventListener('submit', (e) => {
+    handleFormSubmit(e);
+  });
 }
 
 function addBookToLibrary() {
   openForm();
-  // const bookInput = prompt('Book: ');
-  // const newBook = new Book(bookInput);
-  // myLibrary.push(newBook);
-  // appendBook(newBook);
-  // myLibrary.push(...books);
 }
 
 formBtn.addEventListener('click', addBookToLibrary);
 
 function displayBooks() {
   myLibrary.forEach((book) => {
-    const tableRow = document.createElement('tr');
-
-    const titleCell = document.createElement('td');
-    titleCell.textContent = book.title;
-    tableRow.appendChild(titleCell);
-
-    const authorCell = document.createElement('td');
-    authorCell.textContent = book.author;
-    tableRow.appendChild(authorCell);
-
-    const pagesCell = document.createElement('td');
-    pagesCell.textContent = book.pages;
-    tableRow.appendChild(pagesCell);
-
-    const isReadCell = document.createElement('td');
-    isReadCell.textContent = book.isRead;
-    tableRow.appendChild(isReadCell);
-
-    table.appendChild(tableRow);
+    appendBook(book);
   });
 }
 
