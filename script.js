@@ -2,8 +2,9 @@ const table = document.querySelector('tbody');
 const formContainer = document.querySelector('#formContainer');
 const formBtn = document.querySelector('button');
 
-// Constructor function
+// Constructor function for creating a Book object
 function Book(title, author, pages, isRead) {
+  // Set properties of the Book object
   this.title = title;
   this.author = author;
   this.pages = pages;
@@ -11,15 +12,19 @@ function Book(title, author, pages, isRead) {
   this.info = () => `${title} by ${author}, ${pages}, ${isRead}`;
 }
 
+// Array of books using the Book constructor function
 const myLibrary = [
-  new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', 'not read yet'),
-  new Book('The Enchiridion', 'Epictetus', '28 pages', 'is read'),
-  new Book('The Prince', 'Niccolo Machiavelli', '144 pages', 'not read yet'),
+  new Book('The Hobbit', 'J.R.R. Tolkien', '295 pages', false),
+  new Book('The Enchiridion', 'Epictetus', '28 pages', true),
+  new Book('The Prince', 'Niccolo Machiavelli', '144 pages', false),
 ];
 
+// Append new book to table
 function appendBook(newBook) {
+  // Create table row element
   const tableRow = document.createElement('tr');
 
+  // Create table cell elements
   const titleCell = document.createElement('td');
   titleCell.textContent = newBook.title;
   tableRow.appendChild(titleCell);
@@ -36,25 +41,57 @@ function appendBook(newBook) {
   isReadCell.textContent = newBook.isRead;
   tableRow.appendChild(isReadCell);
 
+  // Create delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  tableRow.appendChild(deleteBtn);
+
+  // Append new row to table body
   table.appendChild(tableRow);
+
+  // Add eventListener to delete row from table
+  deleteBtn.addEventListener('click', () => {
+    // Get index of the book object with clicked delete button
+    const index = myLibrary.indexOf(newBook);
+    // Check if the book object is present in myLibrary array. If no object is found,
+    // indexOf will return -1, so any value above -1 means it is present in array.
+    if (index > -1) {
+      // Remove '1' item from the myLibrary array at the position specified by 'index'
+      myLibrary.splice(index, 1);
+    }
+    // Remove table row from table
+    table.removeChild(tableRow);
+  });
 }
 
+// Handle form submission
 function handleFormSubmit(e) {
-  e.preventDefault(); // prevent form from submitting and refreshing the page
+  // prevent form from submitting and refreshing the page
+  e.preventDefault();
+
+  // Get form input values
   const title = e.target.elements.title.value;
   const author = e.target.elements.author.value;
   const pages = e.target.elements.pages.value;
   const isRead = e.target.elements.isRead.checked;
 
+  // Create new Book object with form input values
   const newBook = new Book(title, author, pages, isRead);
 
+  // Add book object to library array and append it to table
   myLibrary.push(newBook);
   appendBook(newBook);
 
   // Clear form fields
   e.target.reset();
+
+  // Remove form from page
+  formContainer.removeChild(e.target);
+
+  console.log(myLibrary);
 }
 
+// Open form to add new book
 function openForm() {
   const form = document.createElement('form');
 
@@ -98,17 +135,16 @@ function openForm() {
   form.appendChild(submitButton);
   formContainer.appendChild(form);
 
+  // Add eventListener to submit button
   form.addEventListener('submit', (e) => {
     handleFormSubmit(e);
   });
 }
 
-function addBookToLibrary() {
-  openForm();
-}
+// Open form on formBtn click
+formBtn.addEventListener('click', openForm);
 
-formBtn.addEventListener('click', addBookToLibrary);
-
+// Display all books in table
 function displayBooks() {
   myLibrary.forEach((book) => {
     appendBook(book);
