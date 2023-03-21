@@ -1,3 +1,4 @@
+const overlay = document.getElementById('overlay'); // To open form in front of page content
 const table = document.querySelector('tbody');
 const formContainer = document.querySelector('#formContainer');
 const formBtn = document.querySelector('button');
@@ -155,11 +156,15 @@ function openForm() {
   // Add eventListener to submit button
   form.addEventListener('submit', (e) => {
     handleFormSubmit(e);
+    overlay.style.display = 'none'; // Hide overlay
   });
 }
 
 // Open form on formBtn click
-formBtn.addEventListener('click', openForm);
+formBtn.addEventListener('click', () => {
+  overlay.style.display = 'block'; // Activate overlay
+  openForm();
+});
 
 // Display all books in table
 function displayBooks() {
