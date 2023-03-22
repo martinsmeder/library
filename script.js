@@ -22,7 +22,7 @@ Book.prototype.toggleRead = function () {
 
 // Create an array of books using the Book constructor function
 const myLibrary = [
-  new Book('The Hobbit', 'J.R.R. Tolkien', '295', false),
+  new Book('The Laws of Human Nature', 'Robert Greene', '624', true),
   new Book('The Enchiridion', 'Epictetus', '28', true),
   new Book('The Prince', 'Niccolo Machiavelli', '144', false),
 ];
@@ -61,9 +61,11 @@ function appendBook(newBook) {
   });
 
   // Create delete button
+  const deleteCell = document.createElement('td');
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = 'Delete';
-  tableRow.appendChild(deleteBtn);
+  tableRow.appendChild(deleteCell);
+  deleteCell.appendChild(deleteBtn);
 
   // Add eventListener to delete row from table
   deleteBtn.addEventListener('click', () => {

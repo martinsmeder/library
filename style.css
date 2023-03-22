@@ -21,6 +21,7 @@ header {
     border-bottom: 2px solid #000;
     font-size: 2rem;
     box-shadow: 0 0 .5rem #FFC600;
+    text-shadow: 0 0 .3rem #FFC600;
 }
 
 main {
@@ -42,6 +43,7 @@ footer {
     border-top: 2px solid #000;
     font-size: 1.5rem;
     box-shadow: 0 0 .5rem #FFC600;
+    text-shadow: 0 0 .1rem #FFC600;
 }
 
 footer a {
@@ -51,6 +53,10 @@ footer a {
 
 footer a:hover {
     color: #FFC600;
+}
+
+footer a:active {
+    transform: scale(1.1);
 }
 
 #buttonContainer {
@@ -67,7 +73,8 @@ footer a:hover {
 }
 
 #buttonContainer button:hover {
-    color: #FFC600
+    color: #FFC600;
+    text-shadow: 0 0 .2rem #FFC600;
 }
 
 #buttonContainer button:active {
@@ -87,14 +94,31 @@ footer a:hover {
     border-radius: 7px;
     background: #FFF;  
     font-family: 'Audiowide', cursive;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #tableContainer button:hover {
     border-color: #FFC600;
+    box-shadow: 0 0 .5rem #FFC600;
 }
 
-td {
+#tableContainer tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+#tableContainer th {
+    background: #FFC600;
+    box-shadow: 0 0 .2rem #FFC600;
+    padding: 5px;
+    color: #FFF;
+}
+
+
+#tableContainer td {
     width: 200px;
+    padding: 5px;
 }
 
 #overlay {
@@ -138,6 +162,7 @@ td {
 
 #formContainer form button:hover {
     border-color: #FFC600;
+    box-shadow: 0 0 .5rem #FFC600;
 }
 
 #formContainer form button:active {
@@ -166,5 +191,26 @@ td {
     accent-color: white;
 }
 
+@media (max-width: 370px) {
+    /* Prevent content from being pushed upwards */
+    * {
+        width: auto;
+        overflow-x: hidden;
+    }
 
+    header {
+        font-size: 1.5rem;
+    }
+
+    footer {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    /* Add horizontal scrollbar */
+    #tableContainer {
+        overflow: auto;
+        white-space: nowrap;
+    }
+}   
 
