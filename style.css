@@ -9,6 +9,7 @@ body {
     display: grid;
     justify-items: center;
     align-content: space-between;
+    font-family: 'Audiowide', cursive;
 }
 
 header {
@@ -19,6 +20,7 @@ header {
     justify-content: center;
     border-bottom: 2px solid #000;
     font-size: 2rem;
+    box-shadow: 0 0 .5rem #FFC600;
 }
 
 main {
@@ -39,6 +41,16 @@ footer {
     justify-content: center;
     border-top: 2px solid #000;
     font-size: 1.5rem;
+    box-shadow: 0 0 .5rem #FFC600;
+}
+
+footer a {
+    text-decoration: none;
+    color: #000;
+}
+
+footer a:hover {
+    color: #FFC600;
 }
 
 #buttonContainer {
@@ -51,28 +63,40 @@ footer {
     font-size: 1.5rem;
     background: #FFF;
     cursor: pointer;
+    font-family: 'Audiowide', cursive;
 }
 
 #buttonContainer button:hover {
-    color: #828282;
+    color: #FFC600
 }
 
 #buttonContainer button:active {
-    color: #828282;
-    font-size: 2rem;
+    transform: scale(1.1);
 }
 
 #tableContainer {
     display: flex;
     justify-content: center;
     text-align: left;
+    font-size: 0.8rem;
+}
+
+#tableContainer button {
+    padding: 3px;
+    border: 2px solid #000;
+    border-radius: 7px;
+    background: #FFF;  
+    font-family: 'Audiowide', cursive;
+}
+
+#tableContainer button:hover {
+    border-color: #FFC600;
 }
 
 td {
     width: 200px;
 }
 
- /* OVERLAY */
 #overlay {
     position: fixed;
     top: 0;
@@ -92,5 +116,55 @@ td {
     background-color: #fff;
     padding: 20px;
     z-index: 2;
+    border-radius: 10%;
+    border: 2px solid #000;
 }
+
+#formContainer form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#formContainer form button {
+    font-size: 1rem;
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 10%;
+    background: #FFF;
+    font-family: 'Audiowide', cursive;
+}
+
+#formContainer form button:hover {
+    border-color: #FFC600;
+}
+
+#formContainer form button:active {
+    transform: scale(1.1);
+    border-color: #FFC600;
+    box-shadow: 0 0 1rem #FFC600;
+}
+
+#formContainer form input {
+    border: none;
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+#formContainer form label {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+#formContainer form label input {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    accent-color: white;
+}
+
+
 

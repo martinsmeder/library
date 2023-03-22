@@ -55,7 +55,7 @@ function appendBook(newBook) {
   isReadCell.appendChild(isReadBtn);
 
   // Add event listener to isRead button to toggle between read/not read
-  tableRow.addEventListener('click', () => {
+  isReadBtn.addEventListener('click', () => {
     newBook.toggleRead();
     isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
   });
@@ -114,35 +114,30 @@ function openForm() {
   const form = document.createElement('form');
 
   // Create form elements
-  const titleLabel = document.createElement('label');
-  titleLabel.textContent = 'Title: ';
   const titleInput = document.createElement('input');
   titleInput.type = 'text';
   titleInput.name = 'title'; // Add name attribute
-  titleLabel.appendChild(titleInput);
-  form.appendChild(titleLabel);
+  titleInput.placeholder = 'Title';
+  form.appendChild(titleInput);
 
-  const authorLabel = document.createElement('label');
-  authorLabel.textContent = 'Author: ';
   const authorInput = document.createElement('input');
   authorInput.type = 'text';
   authorInput.name = 'author'; // Add name attribute
-  authorLabel.appendChild(authorInput);
-  form.appendChild(authorLabel);
+  authorInput.placeholder = 'Author';
+  form.appendChild(authorInput);
 
-  const pagesLabel = document.createElement('label');
-  pagesLabel.textContent = 'Pages: ';
   const pagesInput = document.createElement('input');
   pagesInput.type = 'number';
   pagesInput.name = 'pages'; // Add name attribute
-  pagesLabel.appendChild(pagesInput);
-  form.appendChild(pagesLabel);
+  pagesInput.placeholder = 'Pages';
+  form.appendChild(pagesInput);
 
   const isReadLabel = document.createElement('label');
-  isReadLabel.textContent = 'Read: ';
+  isReadLabel.textContent = 'Have you read it? ';
   const isReadInput = document.createElement('input');
   isReadInput.type = 'checkbox';
   isReadInput.name = 'isRead'; // Add name attribute
+  titleInput.placeholder = 'Title';
   isReadLabel.appendChild(isReadInput);
   form.appendChild(isReadLabel);
 
