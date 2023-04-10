@@ -3,24 +3,25 @@ const table = document.querySelector('tbody');
 const formContainer = document.querySelector('#formContainer');
 const formBtn = document.querySelector('button');
 
-// Constructor function for creating a Book object
-function Book(title, author, pages, isRead) {
-  // Set properties of the Book object
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
-  this.info = () => `${title} by ${author}, ${pages}, ${isRead}`;
+// Class for creating a Book object
+class Book {
+  constructor(title, author, pages, isRead) {
+    // Set properties of the Book object
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
+    this.info = () => `${title} by ${author}, ${pages}, ${isRead}`;
+  }
+
+  // Define a toggleRead() method on the Book class
+  toggleRead() {
+    // Invert current value (so read --> not read, and not read --> read)
+    this.isRead = !this.isRead;
+  }
 }
 
-// Define a new toggleRead() method on the Book prototype
-// eslint-disable-next-line func-names
-Book.prototype.toggleRead = function () {
-  // Invert current value (so read --> not read, and not read --> read)
-  this.isRead = !this.isRead;
-};
-
-// Create an array of books using the Book constructor function
+// Create an array of books using the Book class
 const myLibrary = [
   new Book('The Laws of Human Nature', 'Robert Greene', '624', true),
   new Book('The Enchiridion', 'Epictetus', '28', true),
