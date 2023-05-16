@@ -85,6 +85,54 @@ function appendBook(newBook) {
   table.appendChild(tableRow);
 }
 
+// Open form to add new book
+function openForm() {
+  const form = document.createElement('form');
+
+  // Create form elements
+  const titleInput = document.createElement('input');
+  titleInput.type = 'text';
+  titleInput.name = 'title'; // Add name attribute
+  titleInput.placeholder = 'Title';
+  titleInput.required = true;
+  form.appendChild(titleInput);
+
+  const authorInput = document.createElement('input');
+  authorInput.type = 'text';
+  authorInput.name = 'author'; // Add name attribute
+  authorInput.placeholder = 'Author';
+  authorInput.required = true;
+  form.appendChild(authorInput);
+
+  const pagesInput = document.createElement('input');
+  pagesInput.type = 'number';
+  pagesInput.name = 'pages'; // Add name attribute
+  pagesInput.placeholder = 'Pages';
+  pagesInput.required = true;
+  form.appendChild(pagesInput);
+
+  const isReadLabel = document.createElement('label');
+  isReadLabel.textContent = 'Have you read it? ';
+  const isReadInput = document.createElement('input');
+  isReadInput.type = 'checkbox';
+  isReadInput.name = 'isRead'; // Add name attribute
+  isReadLabel.appendChild(isReadInput);
+  form.appendChild(isReadLabel);
+
+  // Add a submit button to the form
+  const submitButton = document.createElement('button');
+  submitButton.type = 'submit';
+  submitButton.textContent = 'Submit';
+  form.appendChild(submitButton);
+  formContainer.appendChild(form);
+
+  // Add eventListener to submit button
+  form.addEventListener('submit', (e) => {
+    handleFormSubmit(e);
+    overlay.style.display = 'none'; // Hide overlay
+  });
+}
+
 // Handle form submission
 function handleFormSubmit(e) {
   // prevent form from submitting and refreshing the page
@@ -110,52 +158,6 @@ function handleFormSubmit(e) {
   formContainer.removeChild(e.target);
 
   console.log(myLibrary);
-}
-
-// Open form to add new book
-function openForm() {
-  const form = document.createElement('form');
-
-  // Create form elements
-  const titleInput = document.createElement('input');
-  titleInput.type = 'text';
-  titleInput.name = 'title'; // Add name attribute
-  titleInput.placeholder = 'Title';
-  form.appendChild(titleInput);
-
-  const authorInput = document.createElement('input');
-  authorInput.type = 'text';
-  authorInput.name = 'author'; // Add name attribute
-  authorInput.placeholder = 'Author';
-  form.appendChild(authorInput);
-
-  const pagesInput = document.createElement('input');
-  pagesInput.type = 'number';
-  pagesInput.name = 'pages'; // Add name attribute
-  pagesInput.placeholder = 'Pages';
-  form.appendChild(pagesInput);
-
-  const isReadLabel = document.createElement('label');
-  isReadLabel.textContent = 'Have you read it? ';
-  const isReadInput = document.createElement('input');
-  isReadInput.type = 'checkbox';
-  isReadInput.name = 'isRead'; // Add name attribute
-  titleInput.placeholder = 'Title';
-  isReadLabel.appendChild(isReadInput);
-  form.appendChild(isReadLabel);
-
-  // Add a submit button to the form
-  const submitButton = document.createElement('button');
-  submitButton.type = 'submit';
-  submitButton.textContent = 'Submit';
-  form.appendChild(submitButton);
-  formContainer.appendChild(form);
-
-  // Add eventListener to submit button
-  form.addEventListener('submit', (e) => {
-    handleFormSubmit(e);
-    overlay.style.display = 'none'; // Hide overlay
-  });
 }
 
 // Open form on formBtn click
