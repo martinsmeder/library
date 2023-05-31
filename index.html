@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="main.js" defer></script>
+    
+    
+</head>
+<body>
+    <header>
+        <h1>LIBRARY</h1>
+    </header>
+    
+    <main>
+        <div id="buttonContainer">
+            <button>+ Add book</button>
+        </div>
+        
+        <div id="tableContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Pages</th>
+                        <th>Status</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="authContainer">
+            <div id="loginForm">
+              <h2>Login</h2>
+              <input type="email" id="email" placeholder="Email" required>
+              <input type="password" id="password" placeholder="Password" required>
+              <button id="loginBtn">Log in</button>
+            </div>
+            <div id="createAccountForm">
+              <h2>Create Account</h2>
+              <input type="email" id="newEmail" placeholder="Email" required>
+              <input type="password" id="newPassword" placeholder="Password" required>
+              <button id="createAccountBtn">Create Account</button>
+            </div>
+        </div>
+
+        <!-- OVERLAY -->
+        <div id="overlay">
+            <div id="formContainer"></div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/martinsmeder" target="_blank">Coded by: Martin Smeder</a>
+    </footer>
+    
+</body>
+</html>

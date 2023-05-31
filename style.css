@@ -1,0 +1,216 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    align-content: space-between;
+    font-family: 'Audiowide', cursive;
+}
+
+header {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #000;
+    font-size: 2rem;
+    box-shadow: 0 0 .5rem #FFC600;
+    text-shadow: 0 0 .3rem #FFC600;
+}
+
+main {
+    height: 85vh;
+    width: 80vw;
+    display: grid;
+    justify-content: center;
+    align-content: start;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+footer {
+    height: 5vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 2px solid #000;
+    font-size: 1.5rem;
+    box-shadow: 0 0 .5rem #FFC600;
+    text-shadow: 0 0 .1rem #FFC600;
+}
+
+footer a {
+    text-decoration: none;
+    color: #000;
+}
+
+footer a:hover {
+    color: #FFC600;
+}
+
+footer a:active {
+    transform: scale(1.1);
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+#buttonContainer button {
+    border: none;
+    font-size: 1.5rem;
+    background: #FFF;
+    cursor: pointer;
+    font-family: 'Audiowide', cursive;
+}
+
+#buttonContainer button:hover {
+    color: #FFC600;
+    text-shadow: 0 0 .2rem #FFC600;
+}
+
+#buttonContainer button:active {
+    transform: scale(1.1);
+}
+
+#tableContainer {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    font-size: 0.8rem;
+}
+
+#tableContainer button {
+    padding: 3px;
+    border: 2px solid #000;
+    border-radius: 7px;
+    background: #FFF;  
+    font-family: 'Audiowide', cursive;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tableContainer button:hover {
+    border-color: #FFC600;
+    box-shadow: 0 0 .5rem #FFC600;
+}
+
+#tableContainer tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+#tableContainer th {
+    background: #FFC600;
+    box-shadow: 0 0 .2rem #FFC600;
+    padding: 5px;
+    color: #FFF;
+}
+
+
+#tableContainer td {
+    width: 200px;
+    padding: 5px;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    display: none;
+  }
+  
+#formContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    z-index: 2;
+    border-radius: 10%;
+    border: 2px solid #000;
+}
+
+#formContainer form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#formContainer form button {
+    font-size: 1rem;
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 10%;
+    background: #FFF;
+    font-family: 'Audiowide', cursive;
+}
+
+#formContainer form button:hover {
+    border-color: #FFC600;
+    box-shadow: 0 0 .5rem #FFC600;
+}
+
+#formContainer form button:active {
+    transform: scale(1.1);
+    border-color: #FFC600;
+    box-shadow: 0 0 1rem #FFC600;
+}
+
+#formContainer form input {
+    border: none;
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+#formContainer form label {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+#formContainer form label input {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    accent-color: white;
+}
+
+@media (max-width: 370px) {
+    /* Prevent content from being pushed upwards */
+    * {
+        width: auto;
+        overflow-x: hidden;
+    }
+
+    header {
+        font-size: 1.5rem;
+    }
+
+    footer {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    /* Add horizontal scrollbar */
+    #tableContainer {
+        overflow: auto;
+        white-space: nowrap;
+    }
+}   
+
