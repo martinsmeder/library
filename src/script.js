@@ -1,7 +1,55 @@
+import {
+  app,
+  auth,
+  db,
+  collection,
+  addDoc,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from './firebase.js';
+
 const overlay = document.getElementById('overlay'); // To open form in front of page content
 const table = document.querySelector('tbody');
 const formContainer = document.querySelector('#formContainer');
 const formBtn = document.querySelector('button');
+
+// Login button event listener
+const loginBtn = document.getElementById('loginBtn');
+loginBtn.addEventListener('click', () => {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // User logged in successfully
+      const user = userCredential.user;
+      console.log('Logged in:', user);
+    })
+    .catch((error) => {
+      // Handle login error
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error('Login error:', errorCode, errorMessage);
+    });
+});
+
+// Create account button event listener
+const createAccountBtn = document.getElementById('createAccountBtn');
+createAccountBtn.addEventListener('click', () => {
+  const email = document.getElementById('newEmail').value;
+  const password = document.getElementById('newPassword').value;
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // User account created successfully
+      const user = userCredential.user;
+      console.log('Account created:', user);
+    })
+    .catch((error) => {
+      // Handle account creation error
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error('Account creation error:', errorCode, errorMessage);
+    });
+});
 
 // Class for creating a Book object
 class Book {
@@ -83,6 +131,20 @@ function appendBook(newBook) {
   });
   // Append new row to table body
   table.appendChild(tableRow);
+
+  // Add book data to Firestore collection
+  addDoc(collection(db, 'books'), {
+    title: newBook.title,
+    author: newBook.author,
+    pages: newBook.pages,
+    isRead: newBook.isRead,
+  })
+    .then((docRef) => {
+      console.log('Book added to Firestore:', docRef.id);
+    })
+    .catch((error) => {
+      console.error('Error adding book to Firestore:', error);
+    });
 }
 
 // Open form to add new book
