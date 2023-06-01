@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "firebase": "^9.22.1"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --watch"
   }
 }
