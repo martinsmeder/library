@@ -5,6 +5,7 @@ import {
   collection,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -12,51 +13,77 @@ import {
 
 import { BookFactory, BookModule } from './appLogic.js';
 
-const overlay = document.getElementById('overlay'); // To open form in front of page content
-const formBtn = document.querySelector('button');
-const formContainer = document.querySelector('#formContainer');
-
-function addBookToTable(newBook) {
+const Renderer = (() => {
   const table = document.querySelector('tbody');
 
-  const tableRow = document.createElement('tr');
+  const addBookToTable = (newBook) => {
+    const tableRow = document.createElement('tr');
 
-  const titleCell = document.createElement('td');
-  titleCell.textContent = newBook.title;
-  tableRow.appendChild(titleCell);
+    const titleCell = document.createElement('td');
+    titleCell.textContent = newBook.title;
+    tableRow.appendChild(titleCell);
 
-  const authorCell = document.createElement('td');
-  authorCell.textContent = newBook.author;
-  tableRow.appendChild(authorCell);
+    const authorCell = document.createElement('td');
+    authorCell.textContent = newBook.author;
+    tableRow.appendChild(authorCell);
 
-  const pagesCell = document.createElement('td');
-  pagesCell.textContent = newBook.pages;
-  tableRow.appendChild(pagesCell);
+    const pagesCell = document.createElement('td');
+    pagesCell.textContent = newBook.pages;
+    tableRow.appendChild(pagesCell);
 
-  const isReadCell = document.createElement('td');
-  const isReadBtn = document.createElement('button');
-  isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
-  tableRow.appendChild(isReadCell);
-  isReadCell.appendChild(isReadBtn);
+    const isReadCell = document.createElement('td');
+    const isReadBtn = document.createElement('button');
+    isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
+    isReadBtn.addEventListener('click', async () => {
+      try {
+        await BookModule.toggleIsRead(newBook);
+        isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
+      } catch (error) {
+        console.error('Error toggling book read status:', error);
+      }
+    });
+    tableRow.appendChild(isReadCell);
+    isReadCell.appendChild(isReadBtn);
 
-  const deleteCell = document.createElement('td');
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = 'Delete';
-  tableRow.appendChild(deleteCell);
-  deleteCell.appendChild(deleteBtn);
+    const deleteCell = document.createElement('td');
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.addEventListener('click', async () => {
+      try {
+        await BookModule.deleteBookFromFirestore(newBook);
+        BookModule.deleteBookFromArray(newBook);
+        table.removeChild(tableRow);
+      } catch (error) {
+        console.error('Error deleting book:', error);
+      }
+    });
+    tableRow.appendChild(deleteCell);
+    deleteCell.appendChild(deleteBtn);
 
-  deleteBtn.addEventListener('click', () => {
-    BookModule.deleteBookFromArray(newBook);
-    table.removeChild(tableRow);
-  });
+    table.appendChild(tableRow);
+  };
 
-  table.appendChild(tableRow);
-}
+  const displayBooks = () => {
+    table.textContent = '';
 
-function handleBookForm() {
+    BookModule.myLibrary.forEach((newBook) => {
+      addBookToTable(newBook);
+    });
+  };
+
+  return {
+    addBookToTable,
+    displayBooks,
+  };
+})();
+
+const Controller = (() => {
+  const overlay = document.getElementById('overlay');
+  const formBtn = document.querySelector('button');
+  const formContainer = document.querySelector('#formContainer');
   const bookForm = document.getElementById('bookForm');
 
-  bookForm.addEventListener('submit', async (e) => {
+  const handleBookForm = async (e) => {
     e.preventDefault();
     const formData = new FormData(bookForm);
     const title = formData.get('title');
@@ -68,9 +95,7 @@ function handleBookForm() {
     try {
       const bookId = await BookModule.addBookToFirestore(newBook);
       console.log('Book ID:', bookId);
-      displayBooks();
-      // BookModule.deleteBookFromArray(newBook); // Delete from local array
-      // await BookModule.deleteBookFromFirestore(bookId); // Delete from Firestore
+      Renderer.displayBooks();
     } catch (error) {
       console.error('Error adding/deleting book:', error);
     }
@@ -79,23 +104,25 @@ function handleBookForm() {
     bookForm.reset();
     formContainer.style.display = 'none';
     overlay.style.display = 'none';
-  });
-}
+  };
 
-formBtn.addEventListener('click', () => {
-  overlay.style.display = 'block'; // Activate overlay
-  formContainer.style.display = 'block'; // Activate overlay
-  handleBookForm();
-});
+  const initialize = () => {
+    formBtn.addEventListener('click', () => {
+      overlay.style.display = 'block';
+      formContainer.style.display = 'block'; //
+    });
 
-// Display all books in table
-function displayBooks() {
-  BookModule.myLibrary.forEach((newBook) => {
-    addBookToTable(newBook);
-  });
-}
+    bookForm.addEventListener('submit', handleBookForm);
 
-displayBooks();
+    Renderer.displayBooks();
+  };
+
+  return {
+    initialize,
+  };
+})();
+
+Controller.initialize();
 
 // // Login button event listener
 // const loginBtn = document.getElementById('loginBtn');
