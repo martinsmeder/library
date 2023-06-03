@@ -12,7 +12,6 @@ import {
   updateDoc,
   doc,
   signInWithPopup,
-  GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
 } from './firebase.js';
@@ -46,8 +45,7 @@ const Renderer = (() => {
       const user = auth.currentUser;
       if (user) {
         try {
-          await BookModule.toggleReadInFirestore(newBook);
-          BookModule.toggleReadInArray(newBook);
+          await BookModule.toggleReadInFirestore(newBook, user.uid);
           isReadBtn.textContent = newBook.isRead ? 'Read' : 'Not read';
         } catch (error) {
           console.error('Error toggling book read status:', error);
@@ -67,7 +65,7 @@ const Renderer = (() => {
       const user = auth.currentUser;
       if (user) {
         try {
-          await BookModule.deleteBookFromFirestore(newBook);
+          await BookModule.deleteBookFromFirestore(newBook, user.uid);
           BookModule.deleteBookFromArray(newBook);
           table.removeChild(tableRow);
         } catch (error) {
@@ -88,9 +86,24 @@ const Renderer = (() => {
     table.textContent = '';
 
     // User is not signed in, display books from the local array
-    BookModule.myLibrary.forEach((newBook) => {
-      addBookToTable(newBook);
-    });
+    if (!auth.currentUser) {
+      BookModule.myLibrary.forEach((newBook) => {
+        addBookToTable(newBook);
+      });
+      return;
+    }
+
+    // User is signed in, display books from Firestore
+    try {
+      const books = await BookModule.getAllBooksFromFirestore(
+        auth.currentUser.uid
+      );
+      books.forEach((book) => {
+        addBookToTable(book);
+      });
+    } catch (error) {
+      console.error('Error getting books from Firestore:', error);
+    }
   };
 
   const updateLoginStatus = (user) => {
@@ -116,6 +129,7 @@ const Controller = (() => {
   const formContainer = document.querySelector('#formContainer');
   const bookForm = document.getElementById('bookForm');
   const loginBtn = document.getElementById('loginBtn');
+  const table = document.querySelector('tbody');
 
   const handleBookForm = async (e) => {
     e.preventDefault();
@@ -127,13 +141,12 @@ const Controller = (() => {
 
     const user = auth.currentUser;
     if (user) {
-      // User is signed in, save the book to Firebase and local array
+      // User is signed in, save the book to Firestore and update the local array
       const newBook = BookModule.addBookToArray(title, author, pages, isRead);
       try {
-        const bookId = await BookModule.addBookToFirestore(newBook);
-        // BookModule.addBookToArray(title, author, pages, isRead);
-        console.log('Book ID:', bookId);
-        await Renderer.displayBooks();
+        const bookId = await BookModule.addBookToFirestore(newBook, user.uid);
+        newBook.id = bookId;
+        await Renderer.addBookToTable(newBook);
       } catch (error) {
         console.error('Error saving book:', error);
       }
@@ -156,6 +169,7 @@ const Controller = (() => {
       signOut(auth)
         .then(() => {
           Renderer.updateLoginStatus(null);
+          table.textContent = '';
         })
         .catch((error) => {
           console.error('Sign out error:', error);
@@ -164,8 +178,10 @@ const Controller = (() => {
       // User is not signed in, show Google sign-in popup
       signInWithPopup(auth, provider)
         .then((result) => {
+          table.textContent = ''; // Clear the book table
           const user = result.user;
           Renderer.updateLoginStatus(user);
+          // Renderer.displayBooks();
         })
         .catch((error) => {
           console.error('Sign in error:', error);
@@ -176,7 +192,7 @@ const Controller = (() => {
   const initialize = async () => {
     formBtn.addEventListener('click', () => {
       overlay.style.display = 'block';
-      formContainer.style.display = 'block'; //
+      formContainer.style.display = 'block';
     });
 
     bookForm.addEventListener('submit', handleBookForm);
@@ -185,6 +201,7 @@ const Controller = (() => {
 
     onAuthStateChanged(auth, (user) => {
       Renderer.updateLoginStatus(user);
+      Renderer.displayBooks();
     });
 
     await Renderer.displayBooks();
