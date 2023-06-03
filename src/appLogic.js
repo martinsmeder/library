@@ -9,6 +9,9 @@ import {
   deleteDoc,
   updateDoc,
   doc,
+  getDocs,
+  query,
+  where,
 } from './firebase.js';
 
 export const BookFactory = (title, author, pages, isRead) => ({
@@ -67,8 +70,11 @@ export const BookModule = (() => {
     }
   };
 
-  const toggleIsRead = async (book) => {
+  const toggleReadInArray = (book) => {
     book.isRead = !book.isRead;
+  };
+
+  const toggleReadInFirestore = async (book) => {
     try {
       await updateDoc(doc(db, 'books', book.bookId), {
         isRead: book.isRead,
@@ -85,7 +91,8 @@ export const BookModule = (() => {
     addBookToFirestore,
     deleteBookFromArray,
     deleteBookFromFirestore,
-    toggleIsRead,
+    toggleReadInArray,
+    toggleReadInFirestore,
     myLibrary,
   };
 })();
