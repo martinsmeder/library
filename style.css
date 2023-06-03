@@ -227,12 +227,18 @@ footer a:active {
     margin-left: 10px;
     accent-color: white;
 }
+@media (max-width: 800px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding-bottom: 10px;
+    }
+}
 
 @media (max-width: 370px) {
     /* Prevent content from being pushed upwards */
     * {
         width: auto;
-        overflow-x: hidden;
     }
 
     header {
@@ -244,10 +250,9 @@ footer a:active {
         text-align: center;
     }
 
-    /* Add horizontal scrollbar */
-    #tableContainer {
-        overflow: auto;
-        white-space: nowrap;
+    #userContainer {
+        display: flex;
+        flex-direction: column;
     }
 }   
 
