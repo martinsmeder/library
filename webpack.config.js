@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 export default {
   entry: {
-    main: ['./src/appLogic.js', './src/interface.js'], // Combine multiple entry points
+    main: ['./src/app-logic.js', './src/interface.js'], // Combine multiple entry points
   },
   devtool: 'inline-source-map', // Enable multi-file debugging
   output: {

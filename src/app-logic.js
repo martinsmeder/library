@@ -1,26 +1,15 @@
 // TO DO:
-// 1. Get the logic to work with signed in user in the interface.js
-// 2. Test all scenarios
-// 3. Change back to class syntax ?
+// 3. Fix hosting on github pages
 // 4. Move on with ur life
 
 import {
-  app,
-  auth,
   db,
-  provider,
   collection,
   getDocs,
-  query,
-  where,
   addDoc,
   deleteDoc,
   updateDoc,
   doc,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  onAuthStateChanged,
 } from './firebase.js';
 
 export const BookFactory = (title, author, pages, isRead) => ({
@@ -51,7 +40,7 @@ export const BookModule = (() => {
 
       console.log('Book added to Firestore:', docRef.id);
       newBook.bookId = docRef.id; // Store the book ID in the book object
-      return newBook.bookId; // Return the book ID
+      return newBook.bookId;
     } catch (error) {
       console.error('Error adding book to Firestore:', error);
       throw error;
@@ -127,46 +116,3 @@ export const BookModule = (() => {
     myLibrary,
   };
 })();
-
-// BookModule.getAllBooksFromFirestore('pcUcqnlPIRSfaPBI6ojatLdGwZ33');
-
-// const testBookFunctionality = async (userId) => {
-//   // Add a book to Firestore
-//   const newBook = BookModule.addBookToArray(
-//     'Book Title',
-//     'Book Author',
-//     200,
-//     false
-//   );
-//   console.log('Adding book to Firestore...');
-//   await BookModule.addBookToFirestore(newBook, userId);
-//   console.log('Book added to Firestore.');
-
-//   // Retrieve user's books from Firestore
-//   console.log("Retrieving user's books from Firestore...");
-//   await BookModule.getAllBooksFromFirestore(userId);
-//   console.log('Books retrieved from Firestore.');
-
-//   // Toggle read status in Firestore
-//   console.log('Toggling read status in Firestore...');
-//   await BookModule.toggleReadInFirestore(newBook, userId);
-//   console.log('Read status toggled in Firestore.');
-
-//   // Retrieve user's books from Firestore again
-//   console.log("Retrieving user's books from Firestore...");
-//   await BookModule.getAllBooksFromFirestore(userId);
-//   console.log('Books retrieved from Firestore.');
-
-//   // Delete book from Firestore
-//   console.log('Deleting book from Firestore...');
-//   await BookModule.deleteBookFromFirestore(newBook, userId);
-//   console.log('Book deleted from Firestore.');
-
-//   // Retrieve user's books from Firestore once more
-//   console.log("Retrieving user's books from Firestore...");
-//   await BookModule.getAllBooksFromFirestore(userId);
-//   console.log('Books retrieved from Firestore.');
-// };
-
-// const userId = 'pcUcqnlPIRSfaPBI6ojatLdGwZ33';
-// testBookFunctionality(userId);

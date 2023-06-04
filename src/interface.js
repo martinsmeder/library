@@ -1,22 +1,12 @@
 import {
-  app,
   auth,
-  db,
   provider,
-  collection,
-  getDocs,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
   signInWithPopup,
   signOut,
   onAuthStateChanged,
 } from './firebase.js';
 
-import { BookFactory, BookModule } from './appLogic.js';
+import { BookModule } from './app-logic.js';
 
 const Renderer = (() => {
   const table = document.querySelector('tbody');
