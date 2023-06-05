@@ -1,3 +1,5 @@
+console.log('interface.js says: this seem to be working');
+
 import {
   auth,
   provider,

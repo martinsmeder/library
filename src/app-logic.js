@@ -1,6 +1,4 @@
-// TO DO:
-// 3. Fix hosting on github pages
-// 4. Move on with ur life
+console.log('app-logic.js says: this seem to be working');
 
 import {
   db,

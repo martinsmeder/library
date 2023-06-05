@@ -4,12 +4,12 @@
 
 Live demo: https://martinsmeder.github.io/library/
 
-A browser based library app.
+A browser based library app. Powered by webpack and firebase!
 
 Some things I've learned:
 
-- How to configure and use eslint and prettier
 - How to work with tables and forms in javascript
 - How to create an overlay effect
-- How to work with objects and object constructors
-- How to create a method on the prototype of an object
+- How to implement a database using firebase's cloud firestore
+- How to implement google sign in using firebase's authentication
+- How to work with environment variables (even though it didn't really make a difference in this project)

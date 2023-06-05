@@ -1,4 +1,4 @@
-// ========================== Read as firebase.js ========================
+console.log('firebase.js says: this seem to be working');
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
@@ -23,7 +23,12 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // Use data from firebase
+  apiKey: process.env.API_KEY,
+  authDomain: 'library-e9bf7.firebaseapp.com',
+  projectId: 'library-e9bf7',
+  storageBucket: 'library-e9bf7.appspot.com',
+  messagingSenderId: '108285759447',
+  appId: '1:108285759447:web:b512fce576edf56ec2c592',
 };
 
 // Initialize Firebase
