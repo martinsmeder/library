@@ -4,12 +4,4 @@
 
 Live demo: https://martinsmeder.github.io/library/
 
-A browser based library app. Powered by webpack and firebase!
-
-Some things I've learned:
-
-- How to work with tables and forms in javascript
-- How to create an overlay effect
-- How to implement a database using firebase's cloud firestore
-- How to implement google sign in using firebase's authentication
-- How to work with environment variables (even though it didn't really make a difference in this project)
+A browser based library app, with cloud firestore (from firebase) as database. 
